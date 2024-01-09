@@ -1,104 +1,98 @@
 #include <stdio.h>
 
 int main(void) {
-    /* Contiene il range di prezzo tra cui devono essere comprese le azioni specifiche */
-    const double minCompeso = 2.50;
-    const double maxCompreso = 3.50;
+    /* Price range where specific shares are contained in*/
+    const double rangeStart = 2.50;
+    const double rangeStop = 3.50;
 
-    /* La parola da inserire come nominazione dell'azione nel caso si voglia terminare
-     * l'inserimento
-    */
-    const char terminazioneInserimento[] = "terminato";
+    /* The word that, when inserted as the name of the action, will stop the program*/
+    const char terminationString[] = "terminato";
 
-    int qtaAzioni = 0; //Quantita' delle azioni
-    int qtaAzioniSpecifiche = 0; //Contiene la quantita' delle azioni con importo specifico
-    double sommaAzioni = 0.00; //Contiene la somma delle azioni
-    double mediaAzioni = 0.00; //Contiene la media delle azioni
-    double sommaAzioniSpecifico = 0.00; //Contiene la somma delle azioni con importo compreso tra minCompreso e maxCompreso
-    double mediaAzioniSpecifico = 0.00; //Contiene la media delle azioni con importo compreso tra minCompreso e maxCompreso
-    double maxAzione = 0.00; //L'azione con importo massimo
-    double minAzione = 0.00; //L'azione con importo minimo
+    int shareAmount = 0; //Share amount
+    int specificShareAmount = 0; //Amount of shares with the specific price
+    double shareSum = 0.00; //Sum of the share price
+    double shareAverage = 0.00; //Share price average
+    double specificShareSum = 0.00; //Sum of share's price with specific price amount
+    double specificShareAverage = 0.00; //Average price of shares with the specific price amount
+    double shareMax = 0.00; //Share with maximum price
+    double shareMin = 0.00; //Share with minimum price
 
-    int terminareInserimento = 0; //Determina la chiusura del loop del programma
+    int terminate = 0; //Indicates program termination
 
     do {
-        char nomeAzione[100]; //Contiene l'input dell'utente
-        //Richiede un nuovo input da parte dell'utente
-        printf("Inserire la denominazione dell'azione : ");
-        scanf("%s", nomeAzione);
+        //User inputs string that gets saved in here
+        char shareName[100];
 
-        //Controlla l'uguaglianza della stringa alla stringa di terminazione del programma
-        //Terminare il ciclo di for alla terminazione di una delle stringhe
-        for(int i = 0; nomeAzione[i] != '\0' && terminazioneInserimento[i] != '\0'; i++) {
-            //Se durante il controllo si trovano differenze uscire dal loop
-            if(nomeAzione[i] != terminazioneInserimento[i])
+        printf("Inserire la denominazione dell'azione : ");
+        scanf("%s", shareName);
+
+        /* For cycle which terminates at the termination of one of the two strings.
+            checks if the input string equals the termination one*/
+        for(int i = 0; shareName[i] != '\0' && terminationString[i] != '\0'; i++) {
+            //If any difference is found between the strings terminate the loop
+            if(shareName[i] != terminationString[i])
                 break;
-            /* Nel caso si siano sempre trovate uguaglianze e non si sia mai uscito dal loop
-             * e l'ultimo elemento della stringa di controllo sia stato raggiunto allora la
-             * stringa inserita dall'utente eguaglia quella della terminazione quindi
-             * impostare la variabile terminareInserimento a vero in modo da terminare il programma.
+            /*If no difference found and the last element of the input string is reached then
+             * the two strings are equal so stop the program and compute the final data
              */
-            else if(nomeAzione[i] == terminazioneInserimento[i] && terminazioneInserimento[i + 1] == '\0')
-                terminareInserimento = 1;
+            else if(shareName[i] == terminationString[i] && terminationString[i + 1] == '\0')
+                terminate = 1;
         }
         
-        //Se la stringa inserita e la terminazione non eguagliano allora continuare con l'esecuzione
-        if(!terminareInserimento)
+        //If the input doesn't match the input string then keep executing the program
+        if(!terminate)
         {
-            double importoCorrente; //Contiene l'importo dell'azione appena inserita
+            double currentAmount; //Contains the amount of the just inputted share
 
-            //Controllo sul dato inserito
+            //Check on user input
             do {
-                //Inserimento del dato
                 printf("Inserire l'importo dell'azione : ");
-                scanf("%lf", &importoCorrente);
+                scanf("%lf", &currentAmount);
 
-                if(importoCorrente <= 0) //Stampa di messaggio di errore in caso di prezzo negativo o nullo
+                if(currentAmount <= 0) //Error message
                     printf("Errore : L'importo dell'azione non deve essere negativo.\nReinserire il prezzo.\n");
-            } while(importoCorrente <= 0);
+            } while(currentAmount <= 0);
             
-            /* Il buffer contenente l'input dell'utente va vuotato dopo l'inserimento di un numero
-            * tramite scanf() altrimenti quando viene richiamata la funzione per l'inserimento di 
-            * una stringa l'input dell'utente viene ignorato.
-            * Per fare cio' consumare tutti i caratteri rimasti nel buffer fino al raggiungimento
-            * di un '\n' che indica che l'utente ha premuto INVIO.
+            /* After requesting the input of a number using scanf we need to consume from the input
+             * buffer all characters until \n since scanf() doesn't consume them automatically when
+             * reading numbers, to avoid scanf() skipping the next string read we call getchar() until
+             * it reads a \n to consume all bytes in the buffer up until that.
             */
             while((getchar()) != '\n');
 
-            sommaAzioni += importoCorrente; //Calcolo della somma delle azioni
-            qtaAzioni++; //Incremento della quantita' delle azioni
-            //Calcolo dell'azione massima e minima
-            if(importoCorrente > maxAzione) {
-                maxAzione = importoCorrente;
-            } else if(importoCorrente < minAzione) {
-                minAzione = importoCorrente;
+            shareSum += currentAmount; //Compute sum of share amounts
+            shareAmount++; //Increment the share quantity
+            //Compute the maximum and minimum share amount
+            if(currentAmount > shareMax) {
+                shareMax = currentAmount;
+            } else if(currentAmount < shareMin) {
+                shareMin = currentAmount;
             }
-            //Nel caso minAzione non sia stata inizializzata inizializzarla con l'azione corrente
-            if(minAzione == 0)
-                minAzione = importoCorrente;
-            //Calcolo della somma e quantita' delle azioni specifiche (utilizzate per la media)
-            if(importoCorrente >= minCompeso && importoCorrente <= maxCompreso)
+            //If the minimum action amount wasn't initialise then initialise it
+            if(shareMin == 0)
+                shareMin = currentAmount;
+            
+            //Sum and quantity of specific actions
+            if(currentAmount >= rangeStart && currentAmount <= rangeStop)
             {
-                qtaAzioniSpecifiche++;
-                sommaAzioniSpecifico += importoCorrente;
+                specificShareAmount++;
+                specificShareSum += currentAmount;
             }
 
-            //Stampa di una nuova riga come separatore
+            //Print a newline as separator
             printf("\n");
         }
-    } while (!terminareInserimento);
+    } while (!terminate);
 
-    /*Al termine del programma effettuare il calcolo delle medie
-    * e stampare i risultati.
-    * Effettuare le divisioni solamente se le quantita' sono maggiori di 0
-    * altrimenti printf() stampa "nan" in caso di una variabile contenente
-    * il risultato di una divisione per 0.
+    /*Compute averages and print out the results.
+     * Compute these values only if they were initialised to avoid a division by 0
+     * error, otherwise leave these values as they were initialised earlier, 0.
     */
-    if(qtaAzioni > 0)
-        mediaAzioni = sommaAzioni / qtaAzioni;
-    if(qtaAzioniSpecifiche > 0)
-        mediaAzioniSpecifico = sommaAzioniSpecifico / qtaAzioniSpecifiche;
-    //Stampa del resoconto
+    if(shareAmount > 0)
+        shareAverage = shareSum / shareAmount;
+    if(specificShareAmount > 0)
+        specificShareAverage = specificShareSum / specificShareAmount;
+    //Print all computed values.
     printf(
         "\nResoconto (%d Azioni totali) : \n\
         \tSomma dei prezzi delle azioni : %.2f Euro\n\
@@ -106,13 +100,13 @@ int main(void) {
         \tAzione con prezzo massimo : %.2f Euro\n\
         \tAzione con prezzo minimo : %.2f Euro\n\
         \tMedia azioni con prezzo compreso tra %.2f e %.2f Euro : %.2f Euro\n",
-        qtaAzioni,
-        sommaAzioni,
-        mediaAzioni,
-        maxAzione,
-        minAzione,
-        minCompeso,
-        maxCompreso,
-        mediaAzioniSpecifico
+        shareAmount,
+        shareSum,
+        shareAverage,
+        shareMax,
+        shareMin,
+        rangeStart,
+        rangeStop,
+        specificShareAverage
     );
 }
