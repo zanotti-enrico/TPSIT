@@ -1,162 +1,168 @@
 #include <stdio.h>
 
-/*
- *Funzione che ritorna se un numero e' primo o no
+/*Returns wether the parameter is prime or not
 */
-int numeroPrimo(int numero) {
-    //Inizializza una variabile considerando il numero come primo
-    int primo = 1;
+int isPrime(int number) {
+    //Consider the number as prime initially
+    int prime = 1;
 
-    /*Ciclo che controlla tutti i numeri da 2 a numero - 1 se sono divisibili per il numero inserito
-      se si, il numero non e' primo*/
-    for(int iteratore = 2; iteratore < numero && primo; iteratore++){
-        //Se si trova un divisore il numero non e' primo
-        if(numero % iteratore == 0)
-            primo = 0;
+    /*Check all numbers form 2 to number - 1 to check if they are divisible by the parameter.
+        if a divider is found the number isn't prime.*/
+    for(int iterator = 2; iterator < number && prime; iterator++){
+        //In case a divider is found the number isn't prime so exit the loop
+        if(number % iterator == 0)
+            prime = 0;
     }
 
-    //Ritornare lo stato della variabile
-    return primo;
+    //Return the boolean
+    return prime;
 }
 
-void esercizio1() {
-    //Richiedere all'utente la quantitá di numeri da inserire verificando
-    // un controllo in modo che non sia maggiore di 30
-    int qtaNumeri;
+void ex1() {
+    /* Request the quantity of numbers to get the array length.
+     * execute a check to make sure it doesn't exceed the limit 30
+    */
+    int numAmount;
     do {
-        printf("Inserire la quantita' di numeri di cui calcolare la somma e la media : ");
-        scanf("%d", &qtaNumeri);
+        printf("Inserire la quantita' di numbers di cui calcolare la somma e la media : ");
+        scanf("%d", &numAmount);
 
-        if(qtaNumeri > 30)
-            printf("Errore : La quantita' dei numeri non deve essere maggiore di 30\n");
-    } while(qtaNumeri > 30);
+        if(numAmount > 30) //Print error message
+            printf("Errore : La quantita' dei numbers non deve essere maggiore di 30\n");
+    } while(numAmount > 30);
 
-    int numeri[qtaNumeri]; //Contiene i numeri inseriti
+    int numbers[numAmount]; //Contains the inserted numbers
 
-    //Contiene la somma e la media dei numeri pari e dei numeri dispari
-    int sommaPari = 0;
-    int sommaDispari = 0;
-    double mediaPari = 0;
-    double mediaDispari = 0;
+    //Keeps track of the average and the sum of even and odd numbers
+    int sumEven = 0;
+    int sumOdd = 0;
+    double averageEven = 0;
+    double averageOdd = 0;
 
-    //Riempire l'array con numeri interi inseriti dall'utente
-    for(int contatore = 0; contatore < qtaNumeri; contatore++) {
-        printf("Inserire il numero %d : ", contatore + 1);
-        scanf("%d", &numeri[contatore]);
+    //Fill the array with user input
+    for(int counter = 0; counter < numAmount; counter++) {
+        printf("Inserire il numero %d : ", counter + 1);
+        scanf("%d", &numbers[counter]);
     }
-
-    //Calcolare la somma dei numeri pari e dispari e salvarla nelle rispettive variabili
-    for(int contatore = 0; contatore < qtaNumeri; contatore++) {
-        if(numeri[contatore] % 2 == 0)
-            sommaPari += numeri[contatore];
+    
+    //Compute the sum of even and odd numbers saving it in the respective variables
+    for(int counter = 0; counter < numAmount; counter++) {
+        if(numbers[counter] % 2 == 0)
+            sumEven += numbers[counter];
         else
-            sommaDispari += numeri[contatore];
+            sumOdd += numbers[counter];
     }
 
-    //Calcolare la media dei numeri pari e dispari usando il cast per fare una divisione fra numeri a virgola mobile
-    mediaPari = (double)sommaPari / qtaNumeri;
-    mediaDispari = (double)sommaDispari / qtaNumeri;
+    //Compute the averages
+    averageEven = (double)sumEven / numAmount;
+    averageOdd = (double)sumOdd / numAmount;
 
-    //Stampare a schermo i risultati
+    //Output results
     printf(
         "La somma dei numeri pari risulta : %d\nLa somma dei numeri dispari risulta : %d\nLa media dei numeri pari risulta : %.2f\nLa media dei numeri dispari risulta : %.2f\n", 
-        sommaPari, 
-        sommaDispari, 
-        mediaPari, 
-        mediaDispari
+        sumEven, 
+        sumOdd, 
+        averageEven, 
+        averageOdd
     );
+
+    //Terminate the program
+    return 0;
 }
 
-void esercizio2() {
-    //Costanti utilizzate nel programma
-    const int primoScontoPrezzo = 500;
-    const int secondoScontoPrezzo = 1000;
-    const int primoSconto = 10;
-    const int secondoSconto = 20;
-    const int terzoSconto = 30;
+void ex2() {
+    //Constants
+    const int firstDiscountTreshold = 500;
+    const int secondDiscountTreshold = 1000;
+    const int firstDiscount = 10;
+    const int secondDiscount = 20;
+    const int thirdDiscount = 30;
 
-    //Variabili utilizzate all'interno del programma
-    int terminaCiclo = 0;
-    double prezzo, sconto, prezzoScontato;
+    //Variables
+    int terminateLoop = 0;
+    double price, discount, discountedPrice;
 
-    //Ciclo continuo fino al settaggio della variabile terminaCiclo
+    //Infinite loop until terminateLoop is true
     do {
-        //Richiesta inserimento prezzo da scontare
+        //Input the price
         printf("Inserire un prezzo da scontare : ");
-        scanf("%f", &prezzo);
+        scanf("%f", &price);
 
-        //Prezzo compreso tra 0 e la prima soglia di sconto
-        if(prezzo > 0 && prezzo <= primoScontoPrezzo) {
-            printf("Sconto applicato : %d%%", primoSconto);
+        //Check if the price is between 0 and the first discount treshold
+        if(price > 0 && price <= firstDiscountTreshold) {
+            printf("Sconto applicato : %d%%", firstDiscount);
 
-            //Calcolo dello sconto
-            sconto = prezzo * (primoSconto / 100.00);
-            prezzoScontato = prezzo - sconto;
-        //Prezzo compreso tra la prima soglia di sconto e la seconda soglia di sconto
-        } else if(prezzo > primoScontoPrezzo && prezzo <= secondoScontoPrezzo) {
-            printf("Sconto applicato : %d%%", secondoSconto);
+            //Calculate the discount
+            discount = price * (firstDiscount / 100.00);
+            discountedPrice = price - discount;
+        //Check if the price is between the first and the second discount treshold
+        } else if(price > firstDiscountTreshold && price <= secondDiscountTreshold) {
+            printf("Sconto applicato : %d%%", secondDiscount);
 
-            //Calcolo dello sconto
-            sconto = prezzo * (primoSconto / 100.00);
-            prezzoScontato = prezzo - sconto;
-        //Prezzo oltre la seconda soglia di sconto
-        } else if(prezzo > secondoScontoPrezzo) {
-            printf("Sconto applicato : %d%%", terzoSconto);
+            //Calculate the discount
+            discount = price * (firstDiscount / 100.00);
+            discountedPrice = price - discount;
+        //Check if the price is over the second discount treshold
+        } else if(price > secondDiscountTreshold) {
+            printf("Sconto applicato : %d%%", thirdDiscount);
 
-            //Calcolo dello sconto
-            sconto = prezzo * (terzoSconto / 100.00);
-            prezzoScontato = prezzo - sconto;
-        //Prezzo negativo - errore
+            //Calculate the discount
+            discount = price * (thirdDiscount / 100.00);
+            discountedPrice = price - discount;
+        //Negative price - throw an error
         } else {
             printf("Errore : il prezzo non deve essere negativo.");
         }
 
-        //Richiesta di chiusura ciclo
+        //Request loop stop
         printf("Si vuole inserire un nuovo valore di prezzo? [0, 1]");
-        scanf("%d", &terminaCiclo);
+        scanf("%d", &terminateLoop);
 
-        //Se il numero inserito dall'utente differisce da 0 impostarlo a 1 per terminare il ciclo while
-        if(terminaCiclo != 0)
-            terminaCiclo = 1;
-    } while(!terminaCiclo);
+        //If the user requested for loop exit set the variable which terminates the loop to true
+        if(terminateLoop != 0)
+            terminateLoop = 1;
+    } while(!terminateLoop);
+
+    return 0;
 }
 
 void esercizio3 () {
-    int qtaNumeri;
+    int numAmount;
 
-    //Richiedere l'input all'utente
+    //Request user input
     printf("Determinare la quantita' di numeri da inserire : ");
-    scanf("%d", &qtaNumeri);
+    scanf("%d", &numAmount);
 
-    /*Variabili utilizzate */
-    int sommaPositivi = 0;
-    int sommaNegativi = 0;
-    int qtaPositivi = 0;
-    int qtaNegativi = 0;
-    double mediaPositivi, mediaNegativi;
-    int numeroCorrente;
+    //Variables
+    int sumPositive = 0;
+    int sumNegative = 0;
+    int quantityPositive = 0;
+    int quantityNegative = 0;
+    double positiveAverage, negativeAverage;
+    int currentNumber;
 
-    for(unsigned int iterator = 0; iterator < qtaNumeri; iterator++)
+    // Iterate trough all the requested number inputs
+    for(unsigned int iterator = 0; iterator < numAmount; iterator++)
     {
         printf("Inserire il numero %d : ", iterator + 1);
-        scanf("%d", &numeroCorrente);
+        scanf("%d", &currentNumber);
 
-        /*In base al segno del numero incrementare la quantita' di numeri
-            e la somma dei valori assoluti dei numeri relativi*/
-        if(numeroCorrente >= 0) {
-            qtaPositivi++;
-            sommaPositivi += numeroCorrente;
-        } else if(numeroCorrente < 0) {
-            qtaNegativi++;
-            sommaNegativi += (numeroCorrente * -1);
+        /* Depending on the sign and increment quantity of numbers, sum
+            of absolute values and the relative numbers.*/
+        if(currentNumber >= 0) {
+            quantityPositive++;
+            sumPositive += currentNumber;
+        } else if(currentNumber < 0) {
+            quantityNegative++;
+            sumNegative += (currentNumber * -1);
         }
     }
 
-    /*Calcolo della media dei numeri positivi e negativi*/
-    mediaPositivi = (double)sommaPositivi / (double)qtaPositivi;
-    mediaNegativi = (double)sommaNegativi / (double)qtaNegativi;
+    //Calculate the averages
+    positiveAverage = (double)sumPositive / (double)quantityPositive;
+    negativeAverage = (double)sumNegative / (double)quantityNegative;
 
-    //Stampa risultati
+    //Output results
     printf(
         "Quantita' numeri positivi : %d\n\
         Somma numeri positivi : %d\n\
@@ -164,45 +170,44 @@ void esercizio3 () {
         Quantita' numeri negativi : %d\n\
         Somma numeri negativi : %d\n\
         Media numeri negativi : %lf\n\n", 
-        qtaPositivi, sommaPositivi, mediaPositivi, qtaNegativi, sommaNegativi, mediaNegativi
+        quantityPositive, sumPositive, positiveAverage, quantityNegative, sumNegative, negativeAverage
     );
 }
 
 void esercizio4() {
-    //Contiene il nuero inserito e se sommare il numero o no
-    int numeroInserito;
-    int sommareNumero = 1; //Questa variabile si utilizza per stampare i numeri alternati
+    //Contains the number inserted and wether to sum it or not
+    int userInput;
+    int sumNumber = 1; //Prints the altermnating numbers
 
-    //Valore di uscita
-    int sommaNumeriPrimi = 0;
+    //Output value
+    int primeSum = 0;
 
-    /*Controllo sul numero inserito dall'utente*/
+    //Run a check on the number the user inputs
     do {
-        //Richiesta di input
+        //Input
         printf("Inserire il numero di arrivo : ");
-        scanf("%d", &numeroInserito);
+        scanf("%d", &userInput);
 
-        //Stampa di un messaggio di errore nel caso il numero inserito non sia positivo
-        if(numeroInserito <= 0)
+        if(userInput <= 0) //Error message
             printf("Errore : il numero inserito deve essere positivo");
-    } while(numeroInserito <= 0);
+    } while(userInput <= 0);
 
-    /*Ricerca dei primi N numeri primi e somma di essi in modo alternato*/
-    for(int iteratore = 0; iteratore <= numeroInserito; iteratore++){
-        if(numeroPrimo(iteratore)){
-            if(sommareNumero) 
-                sommaNumeriPrimi += iteratore;
-            sommareNumero = !sommareNumero;
+    /*Find the first N numbers and sum the alternating ones*/
+    for(int iterator = 0; iterator <= userInput; iterator++){
+        if(isPrime(iterator)){
+            if(sumNumber) 
+                primeSum += iterator;
+            sumNumber = !sumNumber;
         }
     }
 
-    //Stampa del risultato
-    printf("La somma dei primi %d numeri primi alternati e' %d\n", numeroInserito, sommaNumeriPrimi);
+    //Print the output
+    printf("La somma dei primi %d numeri primi alternati e' %d\n", userInput, primeSum);
 }
 
 
 int main(void) {
-    /*Stampa delle consegne dei 4 esercizi*/
+    /*Primt the 4 exercises*/
     printf("Inserire l'esercizio da eseguire : \n");
     printf(" [1] : Dopo aver letto N numeri (interi), con N scelto dall'utente e non superiore ai 30 elementi,  calcolare la somma e la media dei numeri pari, e dei numeri dispari.\n");
     printf(" [2] : Su una somma di denaro (relativa all'acquito di un prodotto) si vuole applicare uno sconto in base all'importo inserito seguendo il seguente schema:\n\tda 0 a 500 Euro sconto del 10%%;\n\tda 501 a 1000 sconto del 20%%;\n\toltre i 1001 sconto 30%%;\nIl programma dopo aver calcolato e visualizzato a video lo sconto ed il prezzo netto deve permettere di re-inserire ulteriori somme di denaro.\n");
@@ -211,12 +216,12 @@ int main(void) {
     int esercizio;
     scanf("%d", &esercizio);
 
-    //Richiesta di input
+    //Input request
     switch(esercizio) {
-        case 1 : esercizio1();break;
-        case 2 : esercizio2();break;
-        case 3 : esercizio3();break;
-        case 4 : esercizio4();break;
+        case 1 : ex1();break;
+        case 2 : ex2();break;
+        case 3 : ex3();break;
+        case 4 : ex4();break;
 
         default : printf("Errore : Valore inserito non valido\n");
     }

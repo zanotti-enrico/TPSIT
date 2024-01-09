@@ -2,7 +2,7 @@
 
 /*Returns wether the parameter is prime or not
 */
-int numeroPrimo(int number) {
+int isPrime(int number) {
     //Consider the number as prime initially
     int prime = 1;
 
@@ -38,7 +38,7 @@ int main(void) {
 
     /*Find the first N numbers and sum the alternating ones*/
     for(int iterator = 0; iterator <= userInput; iterator++){
-        if(numeroPrimo(iterator)){
+        if(isPrime(iterator)){
             if(sumNumber) 
                 primeSum += iterator;
             sumNumber = !sumNumber;
