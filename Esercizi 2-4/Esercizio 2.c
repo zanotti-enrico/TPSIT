@@ -1,57 +1,57 @@
 #include <stdio.h>
 
 int main() {
-    //Costanti utilizzate nel programma
-    const int primoScontoPrezzo = 500;
-    const int secondoScontoPrezzo = 1000;
-    const int primoSconto = 10;
-    const int secondoSconto = 20;
-    const int terzoSconto = 30;
+    //Constants
+    const int firstDiscountTreshold = 500;
+    const int secondDiscountTreshold = 1000;
+    const int firstDiscount = 10;
+    const int secondDiscount = 20;
+    const int thirdDiscount = 30;
 
-    //Variabili utilizzate all'interno del programma
-    int terminaCiclo = 0;
-    double prezzo, sconto, prezzoScontato;
+    //Variables
+    int terminateLoop = 0;
+    double price, discount, discountedPrice;
 
-    //Ciclo continuo fino al settaggio della variabile terminaCiclo
+    //Infinite loop until terminateLoop is true
     do {
-        //Richiesta inserimento prezzo da scontare
+        //Input the price
         printf("Inserire un prezzo da scontare : ");
-        scanf("%f", &prezzo);
+        scanf("%f", &price);
 
-        //Prezzo compreso tra 0 e la prima soglia di sconto
-        if(prezzo > 0 && prezzo <= primoScontoPrezzo) {
-            printf("Sconto applicato : %d%%", primoSconto);
+        //Check if the price is between 0 and the first discount treshold
+        if(price > 0 && price <= firstDiscountTreshold) {
+            printf("Sconto applicato : %d%%", firstDiscount);
 
-            //Calcolo dello sconto
-            sconto = prezzo * (primoSconto / 100.00);
-            prezzoScontato = prezzo - sconto;
-        //Prezzo compreso tra la prima soglia di sconto e la seconda soglia di sconto
-        } else if(prezo > primoScontoPrezzo && prezzo <= secondoScontoPrezzo) {
-            printf("Sconto applicato : %d%%", secondoSconto);
+            //Calculate the discount
+            discount = price * (firstDiscount / 100.00);
+            discountedPrice = price - discount;
+        //Check if the price is between the first and the second discount treshold
+        } else if(price > firstDiscountTreshold && price <= secondDiscountTreshold) {
+            printf("Sconto applicato : %d%%", secondDiscount);
 
-            //Calcolo dello sconto
-            sconto = prezzo * (primoSconto / 100.00);
-            prezzoScontato = prezzo - sconto;
-        //Prezzo oltre la seconda soglia di sconto
-        } else if(prezzo > secondoScontoPrezzo) {
-            printf("Sconto applicato : %d%%", terzoSconto);
+            //Calculate the discount
+            discount = price * (firstDiscount / 100.00);
+            discountedPrice = price - discount;
+        //Check if the price is over the second discount treshold
+        } else if(price > secondDiscountTreshold) {
+            printf("Sconto applicato : %d%%", thirdDiscount);
 
-            //Calcolo dello sconto
-            sconto = prezzo * (terzoSconto / 100.00);
-            prezzoScontato = prezzo - sconto;
-        //Prezzo negativo - errore
+            //Calculate the discount
+            discount = price * (thirdDiscount / 100.00);
+            discountedPrice = price - discount;
+        //Negative price - throw an error
         } else {
             printf("Errore : il prezzo non deve essere negativo.");
         }
 
-        //Richiesta di chiusura ciclo
+        //Request loop stop
         printf("Si vuole inserire un nuovo valore di prezzo? [0, 1]");
-        scanf("%d", &terminaCiclo);
+        scanf("%d", &terminateLoop);
 
-        //Se il numero inserito dall'utente differisce da 0 impostarlo a 1 per terminare il ciclo while
-        if(terminaCiclo != 0)
-            terminaCiclo = 1;
-    } while(!terminaCiclo);
+        //If the user requested for loop exit set the variable which terminates the loop to true
+        if(terminateLoop != 0)
+            terminateLoop = 1;
+    } while(!terminateLoop);
 
     return 0;
 }
