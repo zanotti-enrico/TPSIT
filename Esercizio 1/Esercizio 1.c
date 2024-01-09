@@ -1,52 +1,53 @@
 #include <stdio.h>
 
 int main(void) {
-    //Richiedere all'utente la quantitá di numeri da inserire verificando
-    // un controllo in modo che non sia maggiore di 30
-    int qtaNumeri;
+    /* Request the quantity of numbers to get the array length.
+     * execute a check to make sure it doesn't exceed the limit 30
+    */
+    int numAmount;
     do {
-        printf("Inserire la quantita' di numeri di cui calcolare la somma e la media : ");
-        scanf("%d", &qtaNumeri);
+        printf("Inserire la quantita' di numbers di cui calcolare la somma e la media : ");
+        scanf("%d", &numAmount);
 
-        if(qtaNumeri > 30)
-            printf("Errore : La quantita' dei numeri non deve essere maggiore di 30\n");
-    } while(qtaNumeri > 30);
+        if(numAmount > 30) //Print error message
+            printf("Errore : La quantita' dei numbers non deve essere maggiore di 30\n");
+    } while(numAmount > 30);
 
-    int numeri[qtaNumeri]; //Contiene i numeri inseriti
+    int numbers[numAmount]; //Contains the inserted numbers
 
-    //Contiene la somma e la media dei numeri pari e dei numeri dispari
-    int sommaPari = 0;
-    int sommaDispari = 0;
-    double mediaPari = 0;
-    double mediaDispari = 0;
+    //Keeps track of the average and the sum of even and odd numbers
+    int sumEven = 0;
+    int sumOdd = 0;
+    double averageEven = 0;
+    double averageOdd = 0;
 
-    //Riempire l'array con numeri interi inseriti dall'utente
-    for(int contatore = 0; contatore < qtaNumeri; contatore++) {
-        printf("Inserire il numero %d : ", contatore + 1);
-        scanf("%d", &numeri[contatore]);
+    //Fill the array with user input
+    for(int counter = 0; counter < numAmount; counter++) {
+        printf("Inserire il numero %d : ", counter + 1);
+        scanf("%d", &numbers[counter]);
     }
-
-    //Calcolare la somma dei numeri pari e dispari e salvarla nelle rispettive variabili
-    for(int contatore = 0; contatore < qtaNumeri; contatore++) {
-        if(numeri[contatore] % 2 == 0)
-            sommaPari += numeri[contatore];
+    
+    //Compute the sum of even and odd numbers saving it in the respective variables
+    for(int counter = 0; counter < numAmount; counter++) {
+        if(numbers[counter] % 2 == 0)
+            sumEven += numbers[counter];
         else
-            sommaDispari += numeri[contatore];
+            sumOdd += numbers[counter];
     }
 
-    //Calcolare la media dei numeri pari e dispari usando il cast per fare una divisione fra numeri a virgola mobile
-    mediaPari = (double)sommaPari / qtaNumeri;
-    mediaDispari = (double)sommaDispari / qtaNumeri;
+    //Compute the averages
+    averageEven = (double)sumEven / numAmount;
+    averageOdd = (double)sumOdd / numAmount;
 
-    //Stampare a schermo i risultati
+    //Output results
     printf(
         "La somma dei numeri pari risulta : %d\nLa somma dei numeri dispari risulta : %d\nLa media dei numeri pari risulta : %.2f\nLa media dei numeri dispari risulta : %.2f\n", 
-        sommaPari, 
-        sommaDispari, 
-        mediaPari, 
-        mediaDispari
+        sumEven, 
+        sumOdd, 
+        averageEven, 
+        averageOdd
     );
 
-    //Terminare il programma
+    //Terminate the program
     return 0;
 }
